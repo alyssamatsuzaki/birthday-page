@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Benn!</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overflow-x:hidden;}
+
+/* ── EDITOR TOGGLE ── */
+.edit-btn{position:fixed;top:12px;right:12px;z-index:400;background:rgba(4,18,12,0.85);backdrop-filter:blur(6px);border:1.5px solid rgba(0,220,160,0.45);color:#2fe8a8;font-family:'Orbitron',sans-serif;font-size:0.55rem;letter-spacing:0.14em;padding:7px 15px;border-radius:20px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;}
+.edit-btn:hover{background:rgba(10,40,28,0.95);}
+
+/* ── EDITOR PANEL ── */
+.panel{position:fixed;top:0;right:0;width:285px;height:100vh;background:#030c14;border-left:1.5px solid rgba(0,220,160,0.18);z-index:399;overflow-y:auto;transform:translateX(100%);transition:transform 0.3s ease;padding:18px 14px 60px;}
+.panel.open{transform:translateX(0);}
+.panel h2{font-family:'Orbitron',sans-serif;font-size:0.85rem;color:#2fe8a8;margin-bottom:1.1rem;padding-bottom:8px;border-bottom:1px solid rgba(0,220,160,0.12);}
+.psec{margin-bottom:1.3rem;}
+.psec h3{font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(0,220,160,0.4);margin-bottom:8px;font-family:'Orbitron',sans-serif;}
+.field{margin-bottom:8px;}
+.field label{display:block;font-size:0.56rem;letter-spacing:0.1em;color:rgba(180,220,200,0.4);margin-bottom:3px;text-transform:uppercase;font-family:'Rajdhani',sans-serif;}
+.field input[type=text],.field input[type=url]{width:100%;background:#071010;border:1px solid rgba(0,220,160,0.18);color:#d4f5e8;font-family:'Rajdhani',sans-serif;font-size:0.88rem;padding:6px 9px;border-radius:6px;outline:none;transition:border-color 0.2s;}
+.field input:focus{border-color:rgba(0,220,160,0.55);}
+.field input[type=color]{width:100%;height:30px;background:#071010;border:1px solid rgba(0,220,160,0.18);border-radius:6px;cursor:pointer;padding:2px;}
+.tog-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
+.tog-label{font-size:0.75rem;color:rgba(180,220,200,0.5);font-family:'Rajdhani',sans-serif;}
+.sw{position:relative;width:34px;height:19px;flex-shrink:0;}
+.sw input{opacity:0;width:0;height:0;}
+.sl{position:absolute;inset:0;background:#071010;border:1px solid rgba(0,220,160,0.28);border-radius:19px;cursor:pointer;transition:.2s;}
+.sl:before{content:'';position:absolute;width:13px;height:13px;left:2px;top:2px;background:rgba(0,220,160,0.38);border-radius:50%;transition:.2s;}
+.sw input:checked+.sl{border-color:#2fe8a8;}
+.sw input:checked+.sl:before{transform:translateX(15px);background:#2fe8a8;}
+.dl-btn{width:100%;padding:9px;background:rgba(0,220,160,0.08);border:1.5px solid rgba(0,220,160,0.32);color:#2fe8a8;font-family:'Orbitron',sans-serif;font-size:0.55rem;letter-spacing:0.1em;border-radius:8px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;margin-top:6px;}
+.dl-btn:hover{background:rgba(0,220,160,0.18);}
+.info-btn{width:100%;padding:9px;background:rgba(0,160,255,0.06);border:1.5px solid rgba(0,160,255,0.28);color:#7dd3f5;font-family:'Orbitron',sans-serif;font-size:0.55rem;letter-spacing:0.1em;border-radius:8px;cursor:pointer;text-transform:uppercase;margin-top:6px;transition:all 0.2s;}
+.info-btn:hover{background:rgba(0,160,255,0.14);}
+
+/* ── TANK — full-page underwater world ── */
+.tank{
+  width:100%;min-height:100vh;
+  position:relative;
+  background:linear-gradient(180deg,#041e34 0%,#052840 20%,#04343a 50%,#032e2e 78%,#021e1e 100%);
+  overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;
+}
+.tank::before{content:'';position:absolute;inset:0;background:linear-gradient(175deg,rgba(0,120,200,0.1) 0%,transparent 40%),linear-gradient(190deg,rgba(0,180,110,0.07) 20%,transparent 55%);pointer-events:none;z-index:1;}
+.shimmer{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,rgba(160,230,255,0.4),transparent);animation:shim 6s ease-in-out infinite;z-index:30;}
+@keyframes shim{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
+.glass-l{position:absolute;top:0;left:0;width:7px;height:100%;background:linear-gradient(90deg,rgba(160,230,255,0.1),transparent);z-index:30;pointer-events:none;}
+.glass-r{position:absolute;top:0;right:0;width:7px;height:100%;background:linear-gradient(270deg,rgba(160,230,255,0.07),transparent);z-index:30;pointer-events:none;}
+
+/* ── BIRTHDAY HEADER ── */
+.hdr{
+  position:relative;z-index:20;
+  text-align:center;
+  padding:4rem 2rem 1rem;
+  animation:floatHdr 9s ease-in-out infinite alternate;
+}
+@keyframes floatHdr{from{transform:translateY(0)}to{transform:translateY(-6px)}}
+.hdr h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.8rem,9vw,5.8rem);
+  font-weight:400;color:#d8f4ec;
+  line-height:1.05;letter-spacing:0.08em;
+  text-shadow:0 0 40px rgba(0,200,140,0.3),0 0 80px rgba(0,140,200,0.15),0 2px 16px rgba(0,0,0,0.6);
+}
+.hdr h1 em{
+  font-style:normal;
+  color:#3de8b8;
+  text-shadow:0 0 30px rgba(0,220,180,0.45),0 0 60px rgba(0,160,200,0.2);
+}
+.setlist-label{
+  font-family:'Orbitron',sans-serif;
+  font-size:0.58rem;
+  font-weight:400;
+  letter-spacing:0.45em;
+  text-transform:uppercase;
+  color:rgba(100,220,190,0.45);
+  text-align:center;
+  margin:0.6rem 0 1rem;
+  position:relative;z-index:20;
+}
+
+/* ── LINK CARDS ── */
+.links{
+  position:relative;z-index:20;
+  display:flex;flex-direction:column;gap:10px;
+  width:100%;max-width:420px;
+  padding:0 1.4rem 1rem;
+}
+.lcard{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;border-radius:10px;
+  text-decoration:none;border:1px solid;
+  backdrop-filter:blur(8px);
+  transition:transform .25s,border-color .25s;
+}
+.lcard:hover{transform:translateY(-2px);}
+.lcard-icon{width:42px;height:42px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lcard-text{flex:1;}
+.lcard-title{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1.05rem;line-height:1.2;letter-spacing:0.08em;text-transform:uppercase;}
+.lcard-sub{font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;margin-top:3px;color:rgba(160,210,190,0.28);font-family:'Orbitron',sans-serif;}
+.lcard-arrow{font-size:0.85rem;opacity:.35;transition:transform .25s,opacity .25s;}
+.lcard:hover .lcard-arrow{transform:translateX(3px);opacity:0.8;}
+
+/* footer */
+.ftr{position:relative;z-index:20;font-size:0.55rem;color:rgba(0,200,120,0.2);letter-spacing:0.2em;text-transform:uppercase;text-align:center;padding:0.4rem 0 1rem;}
+
+/* spacer pushes aquascape scene to the bottom */
+.scene-spacer{flex:1;min-height:20px;}
+
+/* ── AQUASCAPE SCENE wrapper ── */
+.aquascape{
+  position:relative;
+  width:100%;
+  flex-shrink:0;
+}
+
+/* ── BUBBLES ── */
+.bub{position:absolute;border-radius:50%;border:1px solid rgba(120,210,200,0.3);background:rgba(120,210,200,0.04);animation:br linear infinite;z-index:22;}
+@keyframes br{0%{transform:translateY(0) translateX(0);opacity:0}8%{opacity:.8}88%{opacity:.22}100%{transform:translateY(-105vh) translateX(12px);opacity:0}}
+
+/* ── FISH ── */
+.fish{position:absolute;animation:swim linear infinite;z-index:21;}
+@keyframes swim{
+  0%  {transform:translateX(-120px)}
+  49% {transform:translateX(calc(100vw + 120px))}
+  50% {transform:translateX(calc(100vw + 120px)) scaleX(-1)}
+  99% {transform:translateX(-120px) scaleX(-1)}
+  100%{transform:translateX(-120px)}
+}
+.fb{animation:wig ease-in-out infinite alternate;}
+@keyframes wig{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+
+/* ── DJ BOOTH ── */
+.booth-wrap{position:absolute;bottom:0;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:26;}
+.decks-col{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.decks{width:160px;height:44px;background:#060a06;border:1px solid rgba(160,100,40,0.55);border-radius:4px;display:flex;align-items:center;justify-content:space-around;padding:0 8px;}
+.btable{width:160px;height:14px;background:linear-gradient(180deg,#2a1a08,#1a0f04);border-radius:4px 4px 0 0;border:1px solid rgba(160,100,40,0.55);border-bottom:none;}
+.vinyl{width:30px;height:30px;border-radius:50%;background:conic-gradient(#0a2a1a,#1a4a2a,#0a2a1a,#1a4a2a,#0a2a1a);border:2px solid rgba(0,200,120,0.5);animation:vsp 2s linear infinite;position:relative;}
+.vinyl::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:6px;height:6px;border-radius:50%;background:rgba(0,255,160,0.85);}
+@keyframes vsp{to{transform:rotate(360deg)}}
+.fdrs{display:flex;gap:4px;align-items:flex-end;}
+.fdr{width:4px;border-radius:2px;background:rgba(0,255,160,0.28);animation:fa ease-in-out infinite alternate;}
+@keyframes fa{from{transform:scaleY(.35);background:rgba(0,255,160,.28)}to{transform:scaleY(1);background:rgba(0,255,160,.72)}}
+
+/* ── LASER CANVAS ── */
+#laser-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:8;pointer-events:none;}
+
+/* ── SOUND RINGS around DJ ── */
+.sound-rings{position:absolute;bottom:180px;left:50%;transform:translateX(-50%);z-index:24;pointer-events:none;width:0;height:0;}
+.sring{position:absolute;border-radius:50%;border:1.5px solid;transform:translate(-50%,-50%);animation:ringPulse ease-out infinite;}
+@keyframes ringPulse{
+  0%  {transform:translate(-50%,-50%) scale(0.3);opacity:0.9;}
+  100%{transform:translate(-50%,-50%) scale(3.5);opacity:0;}
+}
+/* sound wave bars (EQ style) floating near DJ */
+.eq-wrap{position:absolute;bottom:245px;left:50%;transform:translateX(-50%);z-index:25;display:flex;gap:4px;align-items:flex-end;pointer-events:none;}
+.eq-bar{width:5px;border-radius:3px;animation:eqBounce ease-in-out infinite alternate;}
+@keyframes eqBounce{from{transform:scaleY(0.2);}to{transform:scaleY(1);}}
+/* floating music note particles */
+.note{position:absolute;font-size:1.1rem;z-index:25;pointer-events:none;animation:noteFloat linear infinite;color:#4dffc4;text-shadow:0 0 10px rgba(0,255,200,0.8);}
+@keyframes noteFloat{
+  0%  {transform:translateY(0) translateX(0) rotate(0deg);opacity:0;}
+  10% {opacity:1;}
+  80% {opacity:0.6;}
+  100%{transform:translateY(-120px) translateX(var(--nx)) rotate(var(--nr));opacity:0;}
+}
+
+/* ── LIGHT BEAMS (kept for fallback, hidden by canvas) ── */
+.beams{display:none;}
+.beam{display:none;}
+
+/* ── SVG faders animated via JS ── */
+.hidden{display:none!important;}
+</style>
+</head>
+<body>
+
+<button class="edit-btn" id="editBtn" onclick="togglePanel()">✏ Edit Page</button>
+
+<!-- ══ EDITOR PANEL ══ -->
+<div class="panel" id="panel">
+  <h2>✏ Page Editor</h2>
+  <div class="psec">
+    <h3>Header</h3>
+    <div class="field"><label>Name</label><input type="text" id="e-name" value="Benn" oninput="liveUpdate()"></div>
+    <div class="field"><label>Subtitle</label><input type="text" id="e-sub" value="a little something special · just for you" oninput="liveUpdate()"></div>
+    <div class="field"><label>Accent Color</label><input type="color" id="e-accent" value="#2fe8a8" oninput="liveUpdate()"></div>
+  </div>
+  <div class="psec">
+    <h3>Card 1 · Birthday Video</h3>
+    <div class="field"><label>Label</label><input type="text" id="c1l" value="Birthday Video" oninput="liveUpdate()"></div>
+    <div class="field"><label>URL</label><input type="url" id="c1u" placeholder="https://..."></div>
+    <div class="field"><label>Icon</label><input type="text" id="c1i" value="🎬" oninput="liveUpdate()"></div>
+  </div>
+  <div class="psec">
+    <h3>Card 2 · Photo Album</h3>
+    <div class="field"><label>Label</label><input type="text" id="c2l" value="Benn's Photo Album" oninput="liveUpdate()"></div>
+    <div class="field"><label>URL</label><input type="url" id="c2u" placeholder="https://..."></div>
+    <div class="field"><label>Icon</label><input type="text" id="c2i" value="📸" oninput="liveUpdate()"></div>
+  </div>
+  <div class="psec">
+    <h3>Card 3 · Itinerary</h3>
+    <div class="field"><label>Label</label><input type="text" id="c3l" value="Birthday Date Itinerary" oninput="liveUpdate()"></div>
+    <div class="field"><label>URL</label><input type="url" id="c3u" placeholder="https://..."></div>
+    <div class="field"><label>Icon</label><input type="text" id="c3i" value="🗓️" oninput="liveUpdate()"></div>
+  </div>
+  <div class="psec">
+    <h3>Show / Hide</h3>
+    <div class="tog-row"><span class="tog-label">Header</span><label class="sw"><input type="checkbox" checked onchange="tog('hdr-block',this)"><span class="sl"></span></label></div>
+    <div class="tog-row"><span class="tog-label">Card 1 — Video</span><label class="sw"><input type="checkbox" checked onchange="togCard(1,this)"><span class="sl"></span></label></div>
+    <div class="tog-row"><span class="tog-label">Card 2 — Album</span><label class="sw"><input type="checkbox" checked onchange="togCard(2,this)"><span class="sl"></span></label></div>
+    <div class="tog-row"><span class="tog-label">Card 3 — Itinerary</span><label class="sw"><input type="checkbox" checked onchange="togCard(3,this)"><span class="sl"></span></label></div>
+    <div class="tog-row"><span class="tog-label">Footer text</span><label class="sw"><input type="checkbox" checked onchange="tog('ftr-el',this)"><span class="sl"></span></label></div>
+  </div>
+  <button class="dl-btn" onclick="downloadHTML()">⬇ Download Updated HTML</button>
+  <button class="info-btn" onclick="showSteps()">🌐 How to get a live link</button>
+</div>
+
+<!-- ══ TANK: the whole page is underwater ══ -->
+<div class="tank" id="tank">
+  <div class="shimmer"></div>
+  <div class="glass-l"></div>
+  <div class="glass-r"></div>
+
+  <!-- LASER CANVAS — full page, behind everything else -->
+  <canvas id="laser-canvas"></canvas>
+
+  <!-- fish swim behind everything -->
+  <div id="fish-layer" style="position:absolute;inset:0;z-index:10;pointer-events:none;"></div>
+  <!-- bubbles -->
+  <div id="bub-layer" style="position:absolute;inset:0;z-index:11;pointer-events:none;"></div>
+
+  <!-- SOUND RINGS pulsing outward from DJ position -->
+  <div class="sound-rings" id="sound-rings"></div>
+
+  <!-- EQ BAR VISUALISER floating above DJ -->
+  <div class="eq-wrap" id="eq-wrap"></div>
+
+  <!-- FLOATING MUSIC NOTE PARTICLES -->
+  <div id="notes-layer" style="position:absolute;inset:0;z-index:25;pointer-events:none;overflow:hidden;"></div>
+
+  <!-- ── BIRTHDAY HEADER (floating in water) ── -->
+  <div class="hdr" id="hdr-block">
+    <h1>Happy 30th Birthday<br><em id="nameEl">Benn</em>!!!!</h1>
+    <p id="subEl" style="display:none;"></p>
+  </div>
+
+  <div class="setlist-label">Set List</div>
+
+  <!-- ── LINK CARDS (submerged) ── -->
+  <div class="links" id="linksWrap">
+    <a class="lcard" id="card-1" href="#" style="background:rgba(0,20,42,0.65);border-color:rgba(80,160,220,0.35);">
+      <div class="lcard-icon" style="background:rgba(80,160,220,0.1);" id="i1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#7ab8e0" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="#7ab8e0"/></svg></div>
+      <div class="lcard-text">
+        <div class="lcard-title" id="l1" style="color:#8ec8f0;">Birthday Video</div>
+        <div class="lcard-sub" id="s1"></div>
+      </div>
+      <div class="lcard-arrow" style="color:#8ec8f0;">→</div>
+    </a>
+    <a class="lcard" id="card-2" href="#" style="background:rgba(0,22,22,0.65);border-color:rgba(60,180,150,0.35);">
+      <div class="lcard-icon" style="background:rgba(60,180,150,0.1);" id="i2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#5ec4a8" stroke-width="1.5"/><circle cx="8.5" cy="10.5" r="2" stroke="#5ec4a8" stroke-width="1.3"/><path d="M3 16l4.5-4 3.5 3.5 3-2.5L21 18" stroke="#5ec4a8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="lcard-text">
+        <div class="lcard-title" id="l2" style="color:#6ed4b8;">Benn's Photo Album</div>
+        <div class="lcard-sub" id="s2"></div>
+      </div>
+      <div class="lcard-arrow" style="color:#6ed4b8;">→</div>
+    </a>
+    <a class="lcard" id="card-3" href="https://alyssamatsuzaki.github.io/birthday-date-itinerary/" style="background:rgba(12,8,30,0.65);border-color:rgba(140,100,220,0.35);">
+      <div class="lcard-icon" style="background:rgba(140,100,220,0.1);" id="i3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="#a888e0" stroke-width="1.5"/><path d="M3 10h18" stroke="#a888e0" stroke-width="1.5"/><path d="M8 3v4M16 3v4" stroke="#a888e0" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="15" r="1" fill="#a888e0"/><circle cx="12" cy="15" r="1" fill="#a888e0"/><circle cx="16" cy="15" r="1" fill="#a888e0"/></svg></div>
+      <div class="lcard-text">
+        <div class="lcard-title" id="l3" style="color:#b898f0;">Birthday Date Itinerary</div>
+        <div class="lcard-sub" id="s3"></div>
+      </div>
+      <div class="lcard-arrow" style="color:#b898f0;">→</div>
+    </a>
+  </div>
+
+  <p class="ftr hidden" id="ftr-el">made with love · scan QR to open</p>
+
+  <!-- pushes scene to bottom -->
+  <div class="scene-spacer"></div>
+
+  <!-- ── AQUASCAPE + DJ BOOTH at the very bottom ── -->
+  <div class="aquascape" id="aquascape">
+
+    <!-- light beams rising from booth -->
+    <div class="beams" id="beams"></div>
+
+    <!-- SVG aquascape scene -->
+    <svg style="display:block;width:100%;height:320px;" viewBox="0 0 680 320" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="rg1" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="#6a7a6a"/><stop offset="100%" stop-color="#2e3e2e"/></radialGradient>
+        <radialGradient id="rg2" cx="45%" cy="30%" r="55%"><stop offset="0%" stop-color="#5a6a5a"/><stop offset="100%" stop-color="#283028"/></radialGradient>
+        <radialGradient id="rg3" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#7a7060"/><stop offset="100%" stop-color="#38342a"/></radialGradient>
+        <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3e5040"/><stop offset="60%" stop-color="#2a3828"/><stop offset="100%" stop-color="#1a2818"/></linearGradient>
+        <linearGradient id="dg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5a4028"/><stop offset="100%" stop-color="#2c1e10"/></linearGradient>
+        <linearGradient id="dg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#402a14"/><stop offset="100%" stop-color="#5a4028"/></linearGradient>
+      </defs>
+
+      <!-- substrate -->
+      <ellipse cx="340" cy="318" rx="360" ry="26" fill="url(#sg)"/>
+      <ellipse cx="340" cy="312" rx="355" ry="16" fill="#1e2e1c" opacity="0.7"/>
+      <ellipse cx="80"  cy="302" rx="70"  ry="8"  fill="#243022" opacity="0.75"/>
+      <ellipse cx="250" cy="304" rx="90"  ry="7"  fill="#1e2a1e" opacity="0.65"/>
+      <ellipse cx="460" cy="303" rx="80"  ry="7"  fill="#223020" opacity="0.75"/>
+      <ellipse cx="620" cy="300" rx="65"  ry="8"  fill="#1e2a1a" opacity="0.65"/>
+
+      <!-- large rocks -->
+      <ellipse cx="90"  cy="292" rx="55" ry="32" fill="url(#rg2)" opacity="0.85"/>
+      <ellipse cx="88"  cy="280" rx="44" ry="24" fill="#2e3c2e" opacity="0.55"/>
+      <ellipse cx="590" cy="290" rx="60" ry="34" fill="url(#rg1)" opacity="0.85"/>
+      <ellipse cx="592" cy="277" rx="48" ry="24" fill="#303830" opacity="0.5"/>
+      <ellipse cx="330" cy="298" rx="38" ry="22" fill="url(#rg3)" opacity="0.9"/>
+      <!-- mid rocks -->
+      <ellipse cx="160" cy="300" rx="28" ry="18" fill="#2a3428" opacity="0.9"/>
+      <ellipse cx="158" cy="292" rx="20" ry="13" fill="#3a4438" opacity="0.55"/>
+      <ellipse cx="510" cy="299" rx="32" ry="20" fill="#263026" opacity="0.9"/>
+      <ellipse cx="512" cy="290" rx="24" ry="14" fill="#364036" opacity="0.5"/>
+      <ellipse cx="410" cy="302" rx="22" ry="14" fill="#283028" opacity="0.9"/>
+      <ellipse cx="240" cy="301" rx="24" ry="15" fill="#243024" opacity="0.9"/>
+      <!-- small pebbles -->
+      <ellipse cx="50"  cy="306" rx="12" ry="8" fill="#303830" opacity="0.9"/>
+      <ellipse cx="130" cy="305" rx="10" ry="7" fill="#283228" opacity="0.9"/>
+      <ellipse cx="200" cy="304" rx="14" ry="9" fill="#2a3428" opacity="0.9"/>
+      <ellipse cx="290" cy="305" rx="9"  ry="6" fill="#323a32" opacity="0.9"/>
+      <ellipse cx="370" cy="304" rx="11" ry="7" fill="#2c3428" opacity="0.85"/>
+      <ellipse cx="450" cy="305" rx="13" ry="8" fill="#2a3228" opacity="0.9"/>
+      <ellipse cx="550" cy="304" rx="10" ry="6" fill="#303630" opacity="0.9"/>
+      <ellipse cx="640" cy="305" rx="12" ry="8" fill="#283228" opacity="0.85"/>
+      <ellipse cx="475" cy="307" rx="8"  ry="5" fill="#3a4038" opacity="0.9"/>
+      <ellipse cx="180" cy="307" rx="7"  ry="4" fill="#2e3828" opacity="0.85"/>
+
+      <!-- driftwood left -->
+      <path d="M10 320 Q40 282 100 252 Q150 230 200 237 Q240 242 260 232 Q280 220 310 212" stroke="url(#dg1)" stroke-width="14" fill="none" stroke-linecap="round"/>
+      <path d="M10 320 Q40 282 100 252 Q150 230 200 237 Q240 242 260 232 Q280 220 310 212" stroke="#5a3a1a" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.38"/>
+      <path d="M80 260 Q90 247 100 257" stroke="#4a2e10" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.65"/>
+      <path d="M160 239 Q168 230 175 240" stroke="#4a2e10" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55"/>
+      <path d="M140 242 Q148 222 165 207 Q178 195 195 190" stroke="#3d2a18" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M140 242 Q148 222 165 207 Q178 195 195 190" stroke="#6a4828" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.3"/>
+      <path d="M190 192 Q200 180 215 174" stroke="#3a2814" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+      <!-- driftwood right -->
+      <path d="M670 320 Q640 287 590 262 Q545 242 500 240 Q460 237 430 230 Q400 222 370 217" stroke="url(#dg2)" stroke-width="13" fill="none" stroke-linecap="round"/>
+      <path d="M670 320 Q640 287 590 262 Q545 242 500 240 Q460 237 430 230 Q400 222 370 217" stroke="#5a3a1a" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.35"/>
+      <path d="M580 267 Q575 254 585 252" stroke="#4a2e10" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
+      <path d="M498 242 Q492 232 500 230" stroke="#4a2e10" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+      <path d="M520 244 Q528 224 548 210 Q562 200 580 194" stroke="#3d2a18" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M520 244 Q528 224 548 210 Q562 200 580 194" stroke="#6a4828" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.28"/>
+      <path d="M575 197 Q585 184 600 178" stroke="#3a2814" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+      <!-- tall back plants left -->
+      <g opacity="0.95">
+        <line x1="30" y1="320" x2="22" y2="192" stroke="#28a050" stroke-width="2.5"/>
+        <line x1="48" y1="320" x2="56" y2="177" stroke="#259040" stroke-width="2.5"/>
+        <line x1="38" y1="320" x2="30" y2="157" stroke="#208038" stroke-width="2"/>
+        <ellipse cx="20" cy="188" rx="14" ry="7" fill="#2ed870" transform="rotate(-25,20,188)"/>
+        <ellipse cx="22" cy="196" rx="12" ry="6" fill="#28c060" transform="rotate(20,22,196)"/>
+        <ellipse cx="55" cy="174" rx="15" ry="7" fill="#35e878" transform="rotate(-30,55,174)"/>
+        <ellipse cx="58" cy="182" rx="12" ry="6" fill="#28cc68" transform="rotate(15,58,182)"/>
+        <ellipse cx="28" cy="154" rx="13" ry="6" fill="#30d868" transform="rotate(-20,28,154)"/>
+      </g>
+      <!-- tall back plants left-mid -->
+      <g opacity="0.9">
+        <line x1="120" y1="320" x2="112" y2="212" stroke="#22a848" stroke-width="2.5"/>
+        <line x1="135" y1="320" x2="145" y2="197" stroke="#1e9040" stroke-width="2.5"/>
+        <line x1="128" y1="320" x2="118" y2="177" stroke="#209038" stroke-width="2"/>
+        <ellipse cx="110" cy="208" rx="15" ry="7" fill="#28d068" transform="rotate(-28,110,208)"/>
+        <ellipse cx="112" cy="216" rx="12" ry="5" fill="#22b858" transform="rotate(18,112,216)"/>
+        <ellipse cx="144" cy="194" rx="16" ry="7" fill="#30e070" transform="rotate(-32,144,194)"/>
+        <ellipse cx="116" cy="174" rx="13" ry="6" fill="#26c860" transform="rotate(-22,116,174)"/>
+      </g>
+      <!-- red plants right-mid -->
+      <g opacity="0.92">
+        <line x1="560" y1="320" x2="552" y2="207" stroke="#b03020" stroke-width="2.5"/>
+        <line x1="575" y1="320" x2="585" y2="192" stroke="#a02818" stroke-width="2.5"/>
+        <line x1="568" y1="320" x2="558" y2="170" stroke="#b03020" stroke-width="2"/>
+        <ellipse cx="550" cy="204" rx="14" ry="6" fill="#e85040" transform="rotate(-26,550,204)"/>
+        <ellipse cx="552" cy="212" rx="11" ry="5" fill="#d03830" transform="rotate(18,552,212)"/>
+        <ellipse cx="584" cy="189" rx="15" ry="7" fill="#f06048" transform="rotate(-30,584,189)"/>
+        <ellipse cx="556" cy="167" rx="13" ry="6" fill="#e04838" transform="rotate(-20,556,167)"/>
+      </g>
+      <!-- tall back plants right -->
+      <g opacity="0.95">
+        <line x1="638" y1="320" x2="630" y2="200" stroke="#28a050" stroke-width="2.5"/>
+        <line x1="655" y1="320" x2="662" y2="184" stroke="#229040" stroke-width="2.5"/>
+        <line x1="647" y1="320" x2="638" y2="162" stroke="#1e8038" stroke-width="2"/>
+        <ellipse cx="628" cy="196" rx="15" ry="7" fill="#2ed870" transform="rotate(-24,628,196)"/>
+        <ellipse cx="630" cy="204" rx="12" ry="5" fill="#26c060" transform="rotate(18,630,204)"/>
+        <ellipse cx="661" cy="181" rx="16" ry="7" fill="#35e878" transform="rotate(-30,661,181)"/>
+        <ellipse cx="636" cy="159" rx="13" ry="6" fill="#2ed068" transform="rotate(-20,636,159)"/>
+      </g>
+
+      <!-- foreground plants -->
+      <g opacity="0.98">
+        <ellipse cx="55"  cy="297" rx="28" ry="18" fill="#148832"/>
+        <ellipse cx="40"  cy="290" rx="20" ry="14" fill="#18a840"/>
+        <ellipse cx="68"  cy="290" rx="22" ry="15" fill="#169838"/>
+        <ellipse cx="52"  cy="282" rx="18" ry="12" fill="#1ab848"/>
+        <ellipse cx="38"  cy="278" rx="14" ry="10" fill="#14a038" opacity="0.9"/>
+      </g>
+      <g opacity="0.95">
+        <ellipse cx="175" cy="300" rx="22" ry="10" fill="#14882c" transform="rotate(-15,175,300)"/>
+        <ellipse cx="190" cy="292" rx="24" ry="9"  fill="#18a035" transform="rotate(10,190,292)"/>
+        <ellipse cx="162" cy="290" rx="18" ry="8"  fill="#127828" transform="rotate(-20,162,290)"/>
+        <ellipse cx="180" cy="284" rx="16" ry="8"  fill="#1aa83c" transform="rotate(5,180,284)"/>
+      </g>
+      <g opacity="0.95">
+        <ellipse cx="280" cy="304" rx="32" ry="12" fill="#129030"/>
+        <ellipse cx="268" cy="298" rx="22" ry="10" fill="#14a038"/>
+        <ellipse cx="294" cy="297" rx="20" ry="10" fill="#169832"/>
+        <ellipse cx="280" cy="290" rx="16" ry="8"  fill="#18b048"/>
+      </g>
+      <g opacity="0.95">
+        <ellipse cx="400" cy="304" rx="30" ry="12" fill="#108828"/>
+        <ellipse cx="388" cy="297" rx="20" ry="10" fill="#129830"/>
+        <ellipse cx="414" cy="296" rx="22" ry="10" fill="#14902e"/>
+        <ellipse cx="400" cy="288" rx="15" ry="8"  fill="#16a040"/>
+      </g>
+      <g opacity="0.98">
+        <ellipse cx="620" cy="297" rx="28" ry="18" fill="#148832"/>
+        <ellipse cx="606" cy="289" rx="20" ry="14" fill="#18a840"/>
+        <ellipse cx="634" cy="289" rx="22" ry="15" fill="#169838"/>
+        <ellipse cx="620" cy="281" rx="18" ry="12" fill="#1ab848"/>
+      </g>
+
+      <!-- moss -->
+      <ellipse cx="90"  cy="264" rx="30" ry="8"  fill="#149030" opacity="0.75"/>
+      <ellipse cx="590" cy="262" rx="32" ry="8"  fill="#108828" opacity="0.7"/>
+      <ellipse cx="160" cy="287" rx="16" ry="5"  fill="#149030" opacity="0.65"/>
+      <ellipse cx="510" cy="284" rx="18" ry="5"  fill="#108828" opacity="0.65"/>
+      <ellipse cx="200" cy="238" rx="18" ry="5"  fill="#129030" opacity="0.58" transform="rotate(-8,200,238)"/>
+      <ellipse cx="480" cy="237" rx="18" ry="5"  fill="#108828" opacity="0.54" transform="rotate(6,480,237)"/>
+    </svg>
+
+    <!-- DJ BOOTH + SHRIMP on large birthday cake rock -->
+    <div class="booth-wrap" id="booth-wrap">
+      <svg id="cake-svg" width="480" height="340" viewBox="0 0 480 340" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;">
+        <defs>
+          <linearGradient id="t1g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6a5040"/><stop offset="100%" stop-color="#3e2c1c"/>
+          </linearGradient>
+          <linearGradient id="t2g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7a6050"/><stop offset="100%" stop-color="#4a3424"/>
+          </linearGradient>
+          <linearGradient id="t3g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8a7060"/><stop offset="100%" stop-color="#5a4030"/>
+          </linearGradient>
+          <linearGradient id="frL" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#b09888"/>
+            <stop offset="50%" stop-color="#d4b8a0"/>
+            <stop offset="100%" stop-color="#b09888"/>
+          </linearGradient>
+          <radialGradient id="vgL" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#1a4828"/><stop offset="60%" stop-color="#0c2c18"/><stop offset="100%" stop-color="#081808"/>
+          </radialGradient>
+          <radialGradient id="vgR" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#1a4828"/><stop offset="60%" stop-color="#0c2c18"/><stop offset="100%" stop-color="#081808"/>
+          </radialGradient>
+        </defs>
+
+        <!-- ════ TIER 1 — bottom (widest) ════ -->
+        <ellipse cx="240" cy="336" rx="200" ry="18" fill="#221a10" opacity="0.6"/>
+        <rect x="38" y="258" width="404" height="72" rx="10" fill="url(#t1g)"/>
+        <ellipse cx="240" cy="258" rx="202" ry="16" fill="url(#frL)" opacity="0.55"/>
+        <ellipse cx="240" cy="330" rx="202" ry="14" fill="#2c2010"/>
+        <!-- frosting drip edge tier 1 -->
+        <path d="M52 258 Q57 248 63 258 Q68 248 74 258 Q79 248 85 258 Q90 248 96 258 Q101 248 107 258 Q112 248 118 258 Q123 248 129 258 Q134 248 140 258 Q145 248 151 258 Q156 248 162 258 Q167 248 173 258 Q178 248 184 258 Q189 248 195 258 Q200 248 206 258 Q211 248 217 258 Q222 248 228 258 Q233 248 239 258 Q244 248 250 258 Q255 248 261 258 Q266 248 272 258 Q277 248 283 258 Q288 248 294 258 Q299 248 305 258 Q310 248 316 258 Q321 248 327 258 Q332 248 338 258 Q343 248 349 258 Q354 248 360 258 Q365 248 371 258 Q376 248 382 258 Q387 248 393 258 Q398 248 404 258 Q409 248 414 258 Q419 248 424 258" stroke="#c8a888" stroke-width="2" fill="none" opacity="0.65"/>
+        <!-- tier 1 horizontal rock strata lines only -->
+        <line x1="38" y1="278" x2="442" y2="278" stroke="#4a3828" stroke-width="1" opacity="0.4"/>
+        <line x1="38" y1="298" x2="442" y2="298" stroke="#4a3828" stroke-width="1" opacity="0.4"/>
+        <line x1="38" y1="318" x2="442" y2="318" stroke="#3a2c1c" stroke-width="0.8" opacity="0.3"/>
+
+        <!-- ════ TIER 2 — middle ════ -->
+        <rect x="90" y="178" width="300" height="84" rx="8" fill="url(#t2g)"/>
+        <ellipse cx="240" cy="178" rx="150" ry="14" fill="url(#frL)" opacity="0.6"/>
+        <ellipse cx="240" cy="262" rx="150" ry="12" fill="#382818"/>
+        <!-- frosting drip edge tier 2 -->
+        <path d="M98 178 Q103 168 109 178 Q114 168 120 178 Q125 168 131 178 Q136 168 142 178 Q147 168 153 178 Q158 168 164 178 Q169 168 175 178 Q180 168 186 178 Q191 168 197 178 Q202 168 208 178 Q213 168 219 178 Q224 168 230 178 Q235 168 241 178 Q246 168 252 178 Q257 168 263 178 Q268 168 274 178 Q279 168 285 178 Q290 168 296 178 Q301 168 307 178 Q312 168 318 178 Q323 168 329 178 Q334 168 340 178 Q345 168 351 178 Q356 168 362 178 Q367 168 373 178 Q378 168 382 178" stroke="#c8a888" stroke-width="2" fill="none" opacity="0.65"/>
+        <!-- tier 2 strata -->
+        <line x1="90" y1="200" x2="390" y2="200" stroke="#5a3c28" stroke-width="1" opacity="0.38"/>
+        <line x1="90" y1="222" x2="390" y2="222" stroke="#5a3c28" stroke-width="1" opacity="0.38"/>
+        <line x1="90" y1="244" x2="390" y2="244" stroke="#4a3020" stroke-width="0.8" opacity="0.3"/>
+
+        <!-- ════ TIER 3 — top (smallest) ════ -->
+        <rect x="148" y="110" width="184" height="72" rx="7" fill="url(#t3g)"/>
+        <ellipse cx="240" cy="110" rx="92" ry="12" fill="url(#frL)" opacity="0.7"/>
+        <ellipse cx="240" cy="182" rx="92" ry="11" fill="#40301e"/>
+        <!-- frosting drip edge tier 3 -->
+        <path d="M154 110 Q159 100 165 110 Q170 100 176 110 Q181 100 187 110 Q192 100 198 110 Q203 100 209 110 Q214 100 220 110 Q225 100 231 110 Q236 100 242 110 Q247 100 253 110 Q258 100 264 110 Q269 100 275 110 Q280 100 286 110 Q291 100 297 110 Q302 100 308 110 Q313 100 319 110 Q324 100 326 110" stroke="#d0b898" stroke-width="2" fill="none" opacity="0.7"/>
+        <!-- tier 3 strata -->
+        <line x1="148" y1="132" x2="332" y2="132" stroke="#6a4830" stroke-width="1" opacity="0.38"/>
+        <line x1="148" y1="154" x2="332" y2="154" stroke="#6a4830" stroke-width="1" opacity="0.38"/>
+        <!-- candles on tier 3 top -->
+        <!-- candle 1 -->
+        <rect x="184" y="82" width="10" height="30" rx="3" fill="#d07888"/>
+        <ellipse cx="189" cy="82" rx="5" ry="3.5" fill="#e898a8"/>
+        <circle cx="189" cy="78" r="4" fill="#ffe060" opacity="0.95"/>
+        <circle cx="189" cy="76" r="6" fill="#ff9820" opacity="0.3"/>
+        <!-- candle 2 (tallest, centre) -->
+        <rect x="235" y="74" width="10" height="38" rx="3" fill="#70c888"/>
+        <ellipse cx="240" cy="74" rx="5" ry="3.5" fill="#90e8a8"/>
+        <circle cx="240" cy="70" r="4" fill="#ffe060" opacity="0.95"/>
+        <circle cx="240" cy="68" r="6" fill="#ff9820" opacity="0.3"/>
+        <!-- candle 3 -->
+        <rect x="286" y="82" width="10" height="30" rx="3" fill="#8090d8"/>
+        <ellipse cx="291" cy="82" rx="5" ry="3.5" fill="#a0b0f0"/>
+        <circle cx="291" cy="78" r="4" fill="#ffe060" opacity="0.95"/>
+        <circle cx="291" cy="76" r="6" fill="#ff9820" opacity="0.3"/>
+
+        <!-- ════ DJ DECKS on top of tier 3 ════ -->
+        <!-- deck surface -->
+        <rect x="158" y="88" width="164" height="34" rx="5" fill="#0e1e0e" stroke="rgba(0,200,120,0.5)" stroke-width="1.5"/>
+        <!-- vinyl L — animated via JS -->
+        <g id="vinylL" style="transform-origin:202px 105px;">
+          <circle cx="202" cy="105" r="22" fill="url(#vgL)"/>
+          <circle cx="202" cy="105" r="14" fill="#081410"/>
+          <circle cx="202" cy="105" r="8"  fill="#060e08"/>
+          <circle cx="202" cy="105" r="3"  fill="rgba(0,255,160,0.9)"/>
+          <circle cx="202" cy="105" r="22" stroke="rgba(0,220,140,0.55)" stroke-width="2" fill="none"/>
+          <!-- groove lines -->
+          <circle cx="202" cy="105" r="18" stroke="rgba(0,180,100,0.2)" stroke-width="0.8" fill="none"/>
+          <circle cx="202" cy="105" r="11" stroke="rgba(0,180,100,0.2)" stroke-width="0.8" fill="none"/>
+        </g>
+        <!-- vinyl R — animated via JS -->
+        <g id="vinylR" style="transform-origin:278px 105px;">
+          <circle cx="278" cy="105" r="22" fill="url(#vgR)"/>
+          <circle cx="278" cy="105" r="14" fill="#081410"/>
+          <circle cx="278" cy="105" r="8"  fill="#060e08"/>
+          <circle cx="278" cy="105" r="3"  fill="rgba(0,255,160,0.9)"/>
+          <circle cx="278" cy="105" r="22" stroke="rgba(0,220,140,0.55)" stroke-width="2" fill="none"/>
+          <circle cx="278" cy="105" r="18" stroke="rgba(0,180,100,0.2)" stroke-width="0.8" fill="none"/>
+          <circle cx="278" cy="105" r="11" stroke="rgba(0,180,100,0.2)" stroke-width="0.8" fill="none"/>
+        </g>
+        <!-- fader bars — animated via CSS -->
+        <rect id="fsvg1" x="228" y="96"  width="5" height="14" rx="2" fill="rgba(0,255,160,0.55)"/>
+        <rect id="fsvg2" x="235" y="100" width="5" height="10" rx="2" fill="rgba(0,255,160,0.45)"/>
+        <rect id="fsvg3" x="242" y="95"  width="5" height="15" rx="2" fill="rgba(0,255,160,0.6)"/>
+        <rect id="fsvg4" x="249" y="99"  width="5" height="11" rx="2" fill="rgba(0,255,160,0.4)"/>
+        <rect id="fsvg5" x="256" y="97"  width="5" height="13" rx="2" fill="rgba(0,255,160,0.5)"/>
+
+        <!-- ════ SHRIMP DJ ════ -->
+        <!-- headphone arc -->
+        <path d="M186 64 Q240 40 294 64" stroke="#4dffc4" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <rect x="178" y="62" width="12" height="16" rx="5" fill="#2fe8a8"/>
+        <rect x="290" y="62" width="12" height="16" rx="5" fill="#2fe8a8"/>
+        <!-- body -->
+        <ellipse cx="240" cy="86" rx="24" ry="15" fill="#e8834a"/>
+        <!-- body segments -->
+        <path d="M216 86 Q222 96 234 96 Q246 96 252 86" stroke="#c45a30" stroke-width="1.5" fill="none"/>
+        <path d="M218 80 Q224 90 236 90 Q248 90 254 80" stroke="#c45a30" stroke-width="1" fill="none" opacity="0.55"/>
+        <!-- left claw on deck -->
+        <path d="M218 88 Q206 96 200 106" stroke="#e8834a" stroke-width="3" stroke-linecap="round"/>
+        <path d="M200 106 Q196 111 192 109 Q190 105 194 102 Q198 99 200 106" fill="#e8834a"/>
+        <!-- right claw on deck -->
+        <path d="M262 88 Q274 96 280 106" stroke="#e8834a" stroke-width="3" stroke-linecap="round"/>
+        <path d="M280 106 Q284 111 288 109 Q290 105 286 102 Q282 99 280 106" fill="#e8834a"/>
+        <!-- tail -->
+        <path d="M260 92 L276 102 M262 90 L280 92 M260 92 L270 82" stroke="#e8834a" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- antennae -->
+        <path d="M224 72 L204 46" stroke="#e8834a" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M227 70 L210 42" stroke="#e8834a" stroke-width="1.4" stroke-linecap="round" opacity="0.65"/>
+        <!-- eye -->
+        <circle cx="224" cy="76" r="5" fill="white"/>
+        <circle cx="223" cy="76" r="2.8" fill="#1a0a00"/>
+        <circle cx="222" cy="75" r="1" fill="white"/>
+        <!-- music notes -->
+        <text x="300" y="56" font-size="16" fill="#4dffc4" opacity="0.85">♪</text>
+        <text x="164" y="50" font-size="13" fill="#4dffc4" opacity="0.65">♫</text>
+      </svg>
+    </div>
+
+  </div><!-- /aquascape -->
+</div><!-- /tank -->
+
+<script>
+// ── BUBBLES — fewer, more subtle ──
+const bubLayer = document.getElementById('bub-layer');
+for (let i = 0; i < 16; i++) {
+  const b = document.createElement('div'); b.className = 'bub';
+  const s = 2 + Math.random() * 7;
+  b.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${5+Math.random()*35}%;animation-duration:${10+Math.random()*14}s;animation-delay:${Math.random()*18}s;`;
+  bubLayer.appendChild(b);
+}
+
+// ══ LASER CANVAS ENGINE ══
+(function(){
+  const canvas = document.getElementById('laser-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize(){
+    canvas.width  = canvas.offsetWidth  || window.innerWidth;
+    canvas.height = canvas.offsetHeight || window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Laser beam definitions — origin from DJ booth (bottom-centre)
+  const LASER_COLORS = [
+    '#00ffaa','#00ccff','#ff00cc','#ffee00','#aa44ff','#00ffff','#ff4488','#44ffcc'
+  ];
+
+  class Laser {
+    constructor(index, total){
+      this.index = index;
+      this.total = total;
+      this.reset();
+    }
+    reset(){
+      this.color  = LASER_COLORS[Math.floor(Math.random() * LASER_COLORS.length)];
+      this.speed  = 0.004 + Math.random() * 0.008;
+      this.phase  = Math.random() * Math.PI * 2;
+      this.span   = (25 + Math.random() * 55) * (Math.PI/180); // sweep range in radians
+      this.base   = (-160 + (this.index / this.total) * 140) * (Math.PI/180); // spread across top
+      this.length = 0.35 + Math.random() * 0.45; // fraction of screen height
+      this.width  = 1.5 + Math.random() * 2;
+      this.alpha  = 0.55 + Math.random() * 0.35;
+      this.glowW  = this.width * 6;
+    }
+    draw(t){
+      const W = canvas.width, H = canvas.height;
+      const ox = W / 2;
+      const oy = H;                               // origin: bottom-centre
+
+      const angle = this.base + Math.sin(t * this.speed + this.phase) * this.span;
+      const len   = H * this.length;
+      const ex = ox + Math.sin(angle) * len;
+      const ey = oy + Math.cos(angle) * len;       // cos because angle from vertical
+
+      // outer glow
+      ctx.save();
+      ctx.globalAlpha = this.alpha * 0.25;
+      ctx.strokeStyle = this.color;
+      ctx.lineWidth   = this.glowW;
+      ctx.lineCap     = 'round';
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur  = 18;
+      ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ex, ey); ctx.stroke();
+
+      // bright core
+      ctx.globalAlpha = this.alpha;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth   = this.width * 0.4;
+      ctx.shadowBlur  = 6;
+      ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ex, ey); ctx.stroke();
+
+      // mid beam
+      ctx.globalAlpha = this.alpha * 0.8;
+      ctx.strokeStyle = this.color;
+      ctx.lineWidth   = this.width;
+      ctx.shadowBlur  = 14;
+      ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ex, ey); ctx.stroke();
+
+      // endpoint sparkle
+      ctx.globalAlpha = this.alpha * 0.7;
+      ctx.fillStyle   = '#ffffff';
+      ctx.shadowBlur  = 20;
+      ctx.shadowColor = this.color;
+      ctx.beginPath(); ctx.arc(ex, ey, this.width * 1.8, 0, Math.PI*2); ctx.fill();
+
+      ctx.restore();
+    }
+  }
+
+  // Create 12 lasers
+  const lasers = Array.from({length:12}, (_,i) => new Laser(i, 12));
+
+  // Randomly swap a laser colour/params every 1.8s
+  setInterval(()=>{
+    const i = Math.floor(Math.random() * lasers.length);
+    lasers[i].reset();
+  }, 1800);
+
+  let t = 0;
+  function frame(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    t++;
+    for(const l of lasers) l.draw(t);
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ══ SOUND RINGS ══
+(function(){
+  const container = document.getElementById('sound-rings');
+  const ringColors = ['rgba(0,255,170,VAL)','rgba(0,200,255,VAL)','rgba(180,80,255,VAL)','rgba(0,240,200,VAL)'];
+  const ringCount  = 5;
+  for(let i=0; i<ringCount; i++){
+    const r  = document.createElement('div');
+    r.className = 'sring';
+    const sz  = 60 + i * 28;
+    const col = ringColors[i % ringColors.length].replace('VAL','0.7');
+    r.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      border-color:${col};
+      animation-duration:${1.8 + i*0.45}s;
+      animation-delay:${i*0.36}s;
+      box-shadow:0 0 8px ${col};
+    `;
+    container.appendChild(r);
+  }
+})();
+
+// ══ EQ BARS ══
+(function(){
+  const wrap = document.getElementById('eq-wrap');
+  const barColors = ['#00ffaa','#00ddff','#aa55ff','#00ffcc','#ff44aa','#ffee00','#00aaff','#ff66cc','#44ffaa','#00ffee','#ff55bb','#66aaff'];
+  const heights   = [22,34,28,42,18,38,26,46,20,36,24,40];
+  barColors.forEach((col, i) => {
+    const b = document.createElement('div');
+    b.className = 'eq-bar';
+    b.style.cssText = `
+      height:${heights[i]}px;
+      background:${col};
+      box-shadow:0 0 8px ${col};
+      animation-duration:${0.28+i*0.07}s;
+      animation-delay:${i*0.04}s;
+    `;
+    wrap.appendChild(b);
+  });
+})();
+
+// ══ FLOATING MUSIC NOTES ══
+(function(){
+  const layer  = document.getElementById('notes-layer');
+  const symbols = ['♪','♫','♩','♬','♭','♮'];
+  const colors  = ['#4dffc4','#00ccff','#dd88ff','#ffee44','#ff88cc','#44ffee'];
+
+  function spawnNote(){
+    const el = document.createElement('div');
+    el.className = 'note';
+    const sym  = symbols[Math.floor(Math.random()*symbols.length)];
+    const col  = colors[Math.floor(Math.random()*colors.length)];
+    const nx   = (Math.random()*160 - 80) + 'px';
+    const nr   = (Math.random()*60 - 30)  + 'deg';
+    const dur  = 2.2 + Math.random() * 2;
+    const size = 0.8 + Math.random() * 0.8;
+    // spawn near DJ — centre bottom
+    const left = 40 + Math.random() * 20;
+    const bot  = 18 + Math.random() * 8;
+    el.textContent = sym;
+    el.style.cssText = `
+      left:${left}%;bottom:${bot}%;
+      color:${col};text-shadow:0 0 12px ${col};
+      font-size:${size}rem;
+      --nx:${nx};--nr:${nr};
+      animation-duration:${dur}s;
+      animation-delay:${Math.random()*1.5}s;
+    `;
+    layer.appendChild(el);
+    setTimeout(()=>el.remove(), (dur + 1.5) * 1000);
+  }
+
+  // Spawn a note every 380ms
+  setInterval(spawnNote, 380);
+  // Pre-seed a few immediately
+  for(let i=0;i<6;i++) setTimeout(spawnNote, i*200);
+})();
+
+
+
+// ── VINYL SPIN via rAF ──
+(function(){
+  let angle = 0;
+  const vL = document.getElementById('vinylL');
+  const vR = document.getElementById('vinylR');
+  function spin(){
+    angle = (angle + 0.6) % 360;
+    if(vL) vL.style.transform = `rotate(${angle}deg)`;
+    if(vR) vR.style.transform = `rotate(${-angle}deg)`;
+    requestAnimationFrame(spin);
+  }
+  spin();
+})();
+
+// ── FADER BARS via JS oscillation ──
+(function(){
+  const bars = ['fsvg1','fsvg2','fsvg3','fsvg4','fsvg5'];
+  const maxH = [14,10,15,11,13];
+  const phases = [0, 0.8, 1.6, 2.4, 3.2];
+  function tick(t){
+    bars.forEach((id,i)=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      const h = 4 + (maxH[i]-4) * (0.5 + 0.5 * Math.sin(t/300 + phases[i]));
+      const baseY = [96,100,95,99,97][i];
+      el.setAttribute('height', h.toFixed(1));
+      el.setAttribute('y', (baseY + maxH[i] - h).toFixed(1));
+    });
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+// ── FISH — varied species ──
+const flEl = document.getElementById('fish-layer');
+
+// Helper to append a fish div
+function mkFish(html, top, dur, delay, scaleX=1){
+  const d = document.createElement('div');
+  d.className = 'fish';
+  d.style.cssText = `top:${top};animation-duration:${dur}s;animation-delay:-${delay}s;${scaleX<0?'transform:scaleX(-1);':''}`;
+  d.innerHTML = html;
+  flEl.appendChild(d);
+}
+
+// 1. BETTA — long flowing fins, vibrant red-purple
+mkFish(`<svg width="90" height="55" viewBox="0 0 90 55" fill="none">
+  <g class="fb">
+    <!-- tail fan -->
+    <path d="M72 28 Q90 8 88 28 Q90 48 72 28" fill="#9020c0" opacity=".85"/>
+    <path d="M72 28 Q85 14 84 28 Q85 42 72 28" fill="#c030e8" opacity=".5"/>
+    <!-- body -->
+    <ellipse cx="40" cy="28" rx="32" ry="15" fill="#c02040"/>
+    <ellipse cx="38" cy="31" rx="22" ry="9" fill="#9020c0" opacity=".45"/>
+    <!-- dorsal fin long -->
+    <path d="M20 13 Q30 2 50 10 Q60 6 68 16 L62 18 Q52 12 38 16 Q28 18 20 20Z" fill="#e030a0" opacity=".9"/>
+    <!-- ventral fin -->
+    <path d="M30 37 Q22 50 18 47 Q20 40 28 37Z" fill="#9020c0" opacity=".8"/>
+    <path d="M42 38 Q36 52 32 49 Q34 42 40 38Z" fill="#c030e8" opacity=".7"/>
+    <!-- pectoral fin -->
+    <path d="M32 28 Q22 38 18 35 Q20 28 30 27Z" fill="#e030a0" opacity=".65"/>
+    <!-- eye -->
+    <circle cx="14" cy="25" r="5" fill="white"/>
+    <circle cx="13" cy="25" r="2.5" fill="#200010"/>
+    <circle cx="12" cy="24" r="1" fill="white"/>
+    <!-- mouth -->
+    <path d="M5 27 Q3 30 5 32" stroke="#a01830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <!-- iridescent sheen -->
+    <ellipse cx="35" cy="22" rx="14" ry="5" fill="rgba(180,80,255,0.25)" transform="rotate(-10,35,22)"/>
+  </g>
+</svg>`, '12%', 22, 1, 1);
+
+// 2. ANGELFISH — tall diamond body, black stripes
+mkFish(`<svg width="60" height="80" viewBox="0 0 60 80" fill="none">
+  <g class="fb">
+    <!-- long ventral fins trailing down -->
+    <path d="M30 60 Q18 78 14 72 Q20 65 28 60Z" fill="#d4b060" opacity=".7"/>
+    <path d="M30 60 Q42 78 46 72 Q40 65 32 60Z" fill="#d4b060" opacity=".7"/>
+    <!-- body diamond -->
+    <path d="M30 10 L56 40 L30 70 L4 40 Z" fill="#e8c870"/>
+    <!-- black stripes -->
+    <path d="M20 15 L8 40 L20 65" stroke="#1a1010" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M30 10 L30 70" stroke="#1a1010" stroke-width="4" fill="none" opacity=".6"/>
+    <path d="M40 15 L52 40 L40 65" stroke="#1a1010" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <!-- dorsal fin top -->
+    <path d="M26 10 Q28 2 30 10" stroke="#c8a850" stroke-width="3" fill="none"/>
+    <path d="M30 10 Q32 2 34 10" stroke="#c8a850" stroke-width="3" fill="none"/>
+    <!-- eye -->
+    <circle cx="14" cy="38" r="5" fill="white"/>
+    <circle cx="13" cy="38" r="2.5" fill="#101010"/>
+    <circle cx="12" cy="37" r="1" fill="white"/>
+  </g>
+</svg>`, '20%', 19, 7, 1);
+
+// 3. CLOWNFISH — orange with white bands (Nemo style)
+mkFish(`<svg width="72" height="48" viewBox="0 0 72 48" fill="none">
+  <g class="fb">
+    <!-- tail -->
+    <path d="M60 24 L72 12 L72 36 Z" fill="#e06018" opacity=".9"/>
+    <!-- body -->
+    <ellipse cx="34" cy="24" rx="28" ry="18" fill="#f07020"/>
+    <!-- white bands with black outline -->
+    <rect x="12" y="8" width="9" height="32" rx="4" fill="white" opacity=".9"/>
+    <rect x="12" y="8" width="9" height="32" rx="4" fill="none" stroke="#1a0a00" stroke-width="1.5"/>
+    <rect x="32" y="9" width="8" height="30" rx="3" fill="white" opacity=".9"/>
+    <rect x="32" y="9" width="8" height="30" rx="3" fill="none" stroke="#1a0a00" stroke-width="1.5"/>
+    <!-- dorsal fin -->
+    <path d="M16 6 Q26 0 42 8 L40 14 Q26 8 18 14Z" fill="#e06018" opacity=".85"/>
+    <path d="M16 6 Q26 0 42 8" stroke="#1a0a00" stroke-width="1.2" fill="none"/>
+    <!-- pectoral fin -->
+    <path d="M28 26 Q20 36 16 33 Q18 26 26 24Z" fill="#e06018" opacity=".75"/>
+    <!-- eye -->
+    <circle cx="10" cy="21" r="5" fill="white"/>
+    <circle cx="9"  cy="21" r="2.5" fill="#1a0800"/>
+    <circle cx="8"  cy="20" r="1" fill="white"/>
+    <!-- black edge outline -->
+    <ellipse cx="34" cy="24" rx="28" ry="18" fill="none" stroke="#1a0800" stroke-width="1.2"/>
+    <!-- mouth -->
+    <path d="M4 24 Q2 27 4 29" stroke="#c04010" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>`, '8%', 15, 4, 1);
+
+// 4. NEON TETRA SCHOOL — small, bright blue+red stripe, x3
+[['6%',12,2],['9%',12,3.5],['7%',12,5]].forEach(([top,dur,dl])=>{
+  mkFish(`<svg width="40" height="22" viewBox="0 0 40 22" fill="none">
+    <g class="fb">
+      <path d="M34 11 L40 5 L40 17 Z" fill="#1a90c0" opacity=".9"/>
+      <ellipse cx="20" cy="11" rx="16" ry="9" fill="#d0e8f8"/>
+      <!-- neon blue stripe -->
+      <path d="M8 8 Q20 6 32 9" stroke="#00c8ff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- red lower stripe -->
+      <path d="M18 13 Q26 13 34 11" stroke="#e83030" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="7" cy="10" r="3" fill="white"/>
+      <circle cx="6.5" cy="10" r="1.5" fill="#101820"/>
+    </g>
+  </svg>`, top, dur, dl);
+});
+
+// 5. PUFFERFISH — round, spiky, yellow-green
+mkFish(`<svg width="62" height="62" viewBox="0 0 62 62" fill="none">
+  <g class="fb">
+    <!-- spines -->
+    <line x1="31" y1="31" x2="31" y2="6"  stroke="#a0a020" stroke-width="1.5" opacity=".7"/>
+    <line x1="31" y1="31" x2="52" y2="16" stroke="#a0a020" stroke-width="1.5" opacity=".7"/>
+    <line x1="31" y1="31" x2="56" y2="36" stroke="#a0a020" stroke-width="1.5" opacity=".7"/>
+    <line x1="31" y1="31" x2="48" y2="52" stroke="#a0a020" stroke-width="1.5" opacity=".7"/>
+    <line x1="31" y1="31" x2="14" y2="52" stroke="#a0a020" stroke-width="1.5" opacity=".7"/>
+    <line x1="31" y1="31" x2="6"  y2="36" stroke="#a0a020" stroke-width="1.5" opacity=".7"/>
+    <line x1="31" y1="31" x2="10" y2="16" stroke="#a0a020" stroke-width="1.5" opacity=".7"/>
+    <!-- body -->
+    <circle cx="31" cy="31" r="22" fill="#d4c830"/>
+    <circle cx="31" cy="31" r="22" fill="#a8c020" opacity=".4"/>
+    <!-- spots -->
+    <circle cx="24" cy="26" r="3" fill="#607010" opacity=".5"/>
+    <circle cx="36" cy="24" r="2.5" fill="#607010" opacity=".5"/>
+    <circle cx="38" cy="36" r="3" fill="#607010" opacity=".5"/>
+    <circle cx="24" cy="38" r="2.5" fill="#607010" opacity=".5"/>
+    <!-- eyes -->
+    <circle cx="16" cy="28" r="6" fill="white"/>
+    <circle cx="15" cy="28" r="3" fill="#101000"/>
+    <circle cx="14" cy="27" r="1.2" fill="white"/>
+    <!-- beak mouth -->
+    <path d="M8 32 Q6 35 8 37" stroke="#808010" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <line x1="7" y1="34" x2="10" y2="34" stroke="#808010" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+</svg>`, '36%', 28, 10, 1);
+
+// 6. YELLOW TANG — disc-shaped, bright yellow
+mkFish(`<svg width="65" height="58" viewBox="0 0 65 58" fill="none">
+  <g class="fb">
+    <!-- tail -->
+    <path d="M56 29 L65 16 L65 42 Z" fill="#e8c020" opacity=".9"/>
+    <!-- body disc -->
+    <ellipse cx="32" cy="29" rx="26" ry="24" fill="#f0d020"/>
+    <!-- darker back half shading -->
+    <ellipse cx="42" cy="29" rx="16" ry="22" fill="#c8a010" opacity=".35"/>
+    <!-- white spine mark near tail -->
+    <path d="M52 26 L58 29 L52 32" fill="white" opacity=".8"/>
+    <!-- dorsal fin top -->
+    <path d="M18 5 Q32 0 46 8 L44 14 Q30 8 20 12Z" fill="#e0b818" opacity=".85"/>
+    <!-- anal fin bottom -->
+    <path d="M20 50 Q32 58 44 50 L44 46 Q32 52 20 46Z" fill="#e0b818" opacity=".85"/>
+    <!-- pectoral fin -->
+    <path d="M28 30 Q18 40 14 37 Q16 30 26 28Z" fill="#f0d020" opacity=".7"/>
+    <!-- eye -->
+    <circle cx="12" cy="26" r="5.5" fill="white"/>
+    <circle cx="11" cy="26" r="2.8" fill="#1a1000"/>
+    <circle cx="10" cy="25" r="1" fill="white"/>
+    <!-- mouth -->
+    <path d="M4 28 Q2 31 4 33" stroke="#b08010" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>`, '30%', 18, 6, 1);
+
+// 7. SMALL PINK FISH going the other way
+mkFish(`<svg width="52" height="34" viewBox="0 0 52 34" fill="none">
+  <g class="fb">
+    <path d="M42 17 L52 7 L52 27 Z" fill="#d05080" opacity=".9"/>
+    <ellipse cx="24" cy="17" rx="20" ry="12" fill="#f080b0"/>
+    <ellipse cx="22" cy="20" rx="14" ry="7" fill="#d05080" opacity=".4"/>
+    <path d="M14 5 Q22 1 32 7 L30 12 Q22 8 16 10Z" fill="#d05080" opacity=".8"/>
+    <path d="M20 22 Q14 30 10 27 Q13 22 18 20Z" fill="#d05080" opacity=".7"/>
+    <circle cx="8" cy="14" r="4" fill="white"/>
+    <circle cx="7" cy="14" r="2" fill="#200010"/>
+    <circle cx="6.5" cy="13" r=".7" fill="white"/>
+  </g>
+</svg>`, '44%', 16, 8, -1);
+
+
+// ── EDITOR ──
+let panelOpen = false;
+function togglePanel(){
+  panelOpen=!panelOpen;
+  document.getElementById('panel').classList.toggle('open',panelOpen);
+  document.getElementById('editBtn').textContent=panelOpen?'✕ Close':'✏ Edit Page';
+}
+function liveUpdate(){
+  const name=document.getElementById('e-name').value||'Benn';
+  const accent=document.getElementById('e-accent').value;
+  document.getElementById('nameEl').textContent=name;
+  document.getElementById('nameEl').style.color=accent;
+  document.title='Happy Birthday '+name+'!';
+  [1,2,3].forEach(n=>{
+    document.getElementById('l'+n).textContent=document.getElementById('c'+n+'l').value;
+    document.getElementById('i'+n).innerHTML=document.getElementById('i'+n).innerHTML; // icons are SVG, labels only
+    const lel = document.getElementById('l'+n);
+    if(lel) lel.textContent=document.getElementById('c'+n+'l').value;
+  });
+}
+[1,2,3].forEach(n=>{
+  document.getElementById('c'+n+'u').addEventListener('input',function(){
+    const url=this.value.trim();
+    const card=document.getElementById('card-'+n);
+    const sub=document.getElementById('s'+n);
+    if(url){card.href=url;card.onclick=null;sub.textContent='tap to open';}
+    else{card.href='#';sub.textContent='url not set yet';}
+  });
+  document.getElementById('card-'+n).addEventListener('click',function(e){
+    if(this.getAttribute('href')==='#'){e.preventDefault();alert('Open ✏ Edit Page and paste the URL for card '+n+'!');}
+  });
+});
+function tog(id,cb){document.getElementById(id).classList.toggle('hidden',!cb.checked);}
+function togCard(n,cb){document.getElementById('card-'+n).classList.toggle('hidden',!cb.checked);}
+function downloadHTML(){
+  const name=document.getElementById('e-name').value||'Benn';
+  const sub=document.getElementById('e-sub').value;
+  const accent=document.getElementById('e-accent').value;
+  const cards=[1,2,3].map(n=>({l:document.getElementById('c'+n+'l').value,u:document.getElementById('c'+n+'u').value||'#',i:document.getElementById('c'+n+'i').value}));
+  const clone=document.documentElement.cloneNode(true);
+  clone.querySelector('#nameEl').textContent=name;
+  clone.querySelector('#nameEl').style.color=accent;
+  clone.querySelector('#subEl').textContent=sub;
+  clone.querySelector('title').textContent='Happy Birthday '+name+'!';
+  [1,2,3].forEach((n,idx)=>{
+    clone.querySelector('#l'+n).textContent=cards[idx].l;
+    clone.querySelector('#i'+n).textContent=cards[idx].i;
+    clone.querySelector('#card-'+n).href=cards[idx].u;
+    clone.querySelector('#s'+n).textContent=cards[idx].u==='#'?'url not set yet':'tap to open';
+  });
+  const p=clone.querySelector('#panel');if(p)p.remove();
+  const bt=clone.querySelector('.edit-btn');if(bt)bt.remove();
+  const blob=new Blob(['<!DOCTYPE html>\n'+clone.outerHTML],{type:'text/html'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='birthday-page.html';a.click();
+}
+function showSteps(){
+  alert('HOW TO GET A FREE LIVE LINK\n\nOPTION A — Netlify Drop (~2 min):\n1. Click "Download Updated HTML"\n2. Go to: app.netlify.com/drop\n3. Drag & drop the file\n4. Get a live URL instantly!\n\nOPTION B — GitHub Pages:\n1. Create account at github.com\n2. New repo → upload as index.html\n3. Settings → Pages → enable\n4. URL: username.github.io/repo-name\n\nThen come back for your QR code!');
+}
+</script>
+</body>
+</html>
