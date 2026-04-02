@@ -108,6 +108,24 @@ html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overf
 /* footer */
 .ftr{position:relative;z-index:20;font-size:0.55rem;color:rgba(0,200,120,0.2);letter-spacing:0.2em;text-transform:uppercase;text-align:center;padding:0.4rem 0 1rem;}
 
+/* ── CUSTOM PLAY / PAUSE BUTTON ── */
+#play-btn{
+  width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(135deg,#00ffaa,#00ccff);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 24px rgba(0,255,170,0.45),0 0 48px rgba(0,200,255,0.2);
+  transition:transform .15s,box-shadow .15s;
+  position:relative;z-index:21;
+}
+#play-btn:hover{transform:scale(1.1);box-shadow:0 0 32px rgba(0,255,170,0.65),0 0 64px rgba(0,200,255,0.3);}
+#play-btn:active{transform:scale(0.96);}
+#play-btn.playing{
+  background:linear-gradient(135deg,#00ccff,#aa44ff);
+  box-shadow:0 0 24px rgba(0,200,255,0.45),0 0 48px rgba(170,68,255,0.25);
+}
+#play-btn svg polygon,#play-btn svg rect{transition:fill .2s;}
+
 /* spacer pushes aquascape scene to the bottom */
 .scene-spacer{flex:1;min-height:20px;}
 
@@ -277,6 +295,24 @@ html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overf
       </div>
       <div class="lcard-arrow" style="color:#b898f0;">→</div>
     </a>
+  </div>
+
+  <!-- ── SOUNDCLOUD HIDDEN PLAYER + CUSTOM BUTTON ── -->
+  <div style="position:relative;z-index:20;display:flex;align-items:center;justify-content:center;margin:0 0 1rem;">
+    <iframe id="sc-player" width="1" height="1"
+      scrolling="no" frameborder="no" allow="autoplay"
+      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1458919651&color=%2300ffaa&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"
+      style="position:absolute;opacity:0;pointer-events:none;">
+    </iframe>
+    <button id="play-btn" onclick="togglePlay()" aria-label="Play / Pause">
+      <svg id="play-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <polygon points="6,3 20,12 6,21" fill="#0a1a14"/>
+      </svg>
+      <svg id="pause-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" style="display:none;">
+        <rect x="5"  y="3" width="4" height="18" rx="1" fill="#0a1a14"/>
+        <rect x="15" y="3" width="4" height="18" rx="1" fill="#0a1a14"/>
+      </svg>
+    </button>
   </div>
 
   <p class="ftr hidden" id="ftr-el">made with love · scan QR to open</p>
@@ -577,6 +613,75 @@ html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overf
 </div><!-- /tank -->
 
 <script>
+// ══ SOUNDCLOUD PLAY / PAUSE ══
+(function(){
+  // Load Widget API
+  const s = document.createElement('script');
+  s.src = 'https://w.soundcloud.com/player/api.js';
+  document.head.appendChild(s);
+
+  let widget, isPlaying = false, ready = false, triggered = false;
+
+  s.onload = function(){
+    widget = SC.Widget(document.getElementById('sc-player'));
+    widget.bind(SC.Widget.Events.READY, function(){
+      ready = true;
+      // If user already interacted before API loaded, play now
+      if(triggered) doPlay();
+    });
+    widget.bind(SC.Widget.Events.PLAY,  function(){ setPlaying(true);  });
+    widget.bind(SC.Widget.Events.PAUSE, function(){ setPlaying(false); });
+    widget.bind(SC.Widget.Events.FINISH,function(){ setPlaying(false); });
+  };
+
+  function doPlay(){
+    if(widget && ready){ widget.play(); }
+    else {
+      // fallback: reload src with auto_play=true
+      const f = document.getElementById('sc-player');
+      if(f) f.src = f.src.replace('auto_play=false','auto_play=true');
+      setPlaying(true);
+    }
+  }
+
+  function setPlaying(state){
+    isPlaying = state;
+    const btn       = document.getElementById('play-btn');
+    const playIcon  = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    if(!btn) return;
+    if(state){
+      btn.classList.add('playing');
+      playIcon.style.display  = 'none';
+      pauseIcon.style.display = '';
+    } else {
+      btn.classList.remove('playing');
+      playIcon.style.display  = '';
+      pauseIcon.style.display = 'none';
+    }
+  }
+
+  // Auto-play on very first interaction anywhere on the page
+  function firstInteraction(){
+    triggered = true;
+    document.removeEventListener('click',      firstInteraction);
+    document.removeEventListener('touchstart', firstInteraction);
+    document.removeEventListener('keydown',    firstInteraction);
+    if(ready) doPlay();
+  }
+  document.addEventListener('click',      firstInteraction, {once:true});
+  document.addEventListener('touchstart', firstInteraction, {once:true, passive:true});
+  document.addEventListener('keydown',    firstInteraction, {once:true});
+
+  // Manual toggle from button
+  window.togglePlay = function(){
+    triggered = true;
+    if(!ready){ doPlay(); return; }
+    if(isPlaying){ widget.pause(); }
+    else          { widget.play();  }
+  };
+})();
+
 // ── BUBBLES — fewer, more subtle ──
 const bubLayer = document.getElementById('bub-layer');
 for (let i = 0; i < 16; i++) {
