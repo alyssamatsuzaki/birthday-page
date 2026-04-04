@@ -279,7 +279,7 @@ html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overf
       </div>
       <div class="lcard-arrow" style="color:#8ec8f0;">→</div>
     </a>
-    <a class="lcard" id="card-2" href="#" style="background:rgba(0,22,22,0.65);border-color:rgba(60,180,150,0.35);">
+    <a class="lcard" id="card-2" href="https://alyssamatsuzaki.github.io/mcat/" style="background:rgba(0,22,22,0.65);border-color:rgba(60,180,150,0.35);">
       <div class="lcard-icon" style="background:rgba(60,180,150,0.1);" id="i2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#5ec4a8" stroke-width="1.5"/><circle cx="8.5" cy="10.5" r="2" stroke="#5ec4a8" stroke-width="1.3"/><path d="M3 16l4.5-4 3.5 3.5 3-2.5L21 18" stroke="#5ec4a8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="lcard-text">
         <div class="lcard-title" id="l2" style="color:#6ed4b8;">Benn's Photo Album</div>
@@ -297,13 +297,11 @@ html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overf
     </a>
   </div>
 
-  <!-- ── SOUNDCLOUD HIDDEN PLAYER + CUSTOM BUTTON ── -->
-  <div style="position:relative;z-index:20;display:flex;align-items:center;justify-content:center;margin:0 0 1rem;">
-    <iframe id="sc-player" width="1" height="1"
-      scrolling="no" frameborder="no" allow="autoplay"
-      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1458919651&color=%2300ffaa&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"
-      style="position:absolute;opacity:0;pointer-events:none;">
-    </iframe>
+  <!-- ── AUDIO PLAYER (hidden, native) ── -->
+  <audio id="sc-player" src="song.mp3" loop preload="auto"></audio>
+
+  <!-- ── PLAY / PAUSE BUTTON ── -->
+  <div style="position:relative;z-index:20;display:flex;align-items:center;justify-content:center;margin:0 0 1.2rem;">
     <button id="play-btn" onclick="togglePlay()" aria-label="Play / Pause">
       <svg id="play-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
         <polygon points="6,3 20,12 6,21" fill="#0a1a14"/>
@@ -613,39 +611,12 @@ html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overf
 </div><!-- /tank -->
 
 <script>
-// ══ SOUNDCLOUD PLAY / PAUSE ══
+// ══ AUDIO PLAY / PAUSE — native HTML5 ══
 (function(){
-  // Load Widget API
-  const s = document.createElement('script');
-  s.src = 'https://w.soundcloud.com/player/api.js';
-  document.head.appendChild(s);
-
-  let widget, isPlaying = false, ready = false, triggered = false;
-
-  s.onload = function(){
-    widget = SC.Widget(document.getElementById('sc-player'));
-    widget.bind(SC.Widget.Events.READY, function(){
-      ready = true;
-      // If user already interacted before API loaded, play now
-      if(triggered) doPlay();
-    });
-    widget.bind(SC.Widget.Events.PLAY,  function(){ setPlaying(true);  });
-    widget.bind(SC.Widget.Events.PAUSE, function(){ setPlaying(false); });
-    widget.bind(SC.Widget.Events.FINISH,function(){ setPlaying(false); });
-  };
-
-  function doPlay(){
-    if(widget && ready){ widget.play(); }
-    else {
-      // fallback: reload src with auto_play=true
-      const f = document.getElementById('sc-player');
-      if(f) f.src = f.src.replace('auto_play=false','auto_play=true');
-      setPlaying(true);
-    }
-  }
+  const audio = document.getElementById('sc-player');
+  let triggered = false;
 
   function setPlaying(state){
-    isPlaying = state;
     const btn       = document.getElementById('play-btn');
     const playIcon  = document.getElementById('play-icon');
     const pauseIcon = document.getElementById('pause-icon');
@@ -661,24 +632,30 @@ html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overf
     }
   }
 
-  // Auto-play on very first interaction anywhere on the page
-  function firstInteraction(){
+  function startAudio(){
+    if(triggered) return;
     triggered = true;
-    document.removeEventListener('click',      firstInteraction);
-    document.removeEventListener('touchstart', firstInteraction);
-    document.removeEventListener('keydown',    firstInteraction);
-    if(ready) doPlay();
+    audio.play().then(()=>{ setPlaying(true); }).catch(()=>{});
   }
-  document.addEventListener('click',      firstInteraction, {once:true});
-  document.addEventListener('touchstart', firstInteraction, {once:true, passive:true});
-  document.addEventListener('keydown',    firstInteraction, {once:true});
 
-  // Manual toggle from button
-  window.togglePlay = function(){
-    triggered = true;
-    if(!ready){ doPlay(); return; }
-    if(isPlaying){ widget.pause(); }
-    else          { widget.play();  }
+  // Auto-play on very first interaction anywhere on the page
+  document.addEventListener('click',      startAudio, {once:true});
+  document.addEventListener('touchstart', startAudio, {once:true, passive:true});
+  document.addEventListener('keydown',    startAudio, {once:true});
+
+  // Sync icon with audio state
+  audio.addEventListener('play',  ()=> setPlaying(true));
+  audio.addEventListener('pause', ()=> setPlaying(false));
+
+  // Manual toggle — stopPropagation so it doesn't also fire startAudio
+  window.togglePlay = function(e){
+    if(e) e.stopPropagation();
+    if(audio.paused){
+      triggered = true;
+      audio.play().then(()=>{ setPlaying(true); }).catch(()=>{});
+    } else {
+      audio.pause();
+    }
   };
 })();
 
