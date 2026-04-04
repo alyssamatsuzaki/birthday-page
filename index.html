@@ -9,34 +9,6 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overflow-x:hidden;}
 
-/* ── EDITOR TOGGLE ── */
-.edit-btn{position:fixed;top:12px;right:12px;z-index:400;background:rgba(4,18,12,0.85);backdrop-filter:blur(6px);border:1.5px solid rgba(0,220,160,0.45);color:#2fe8a8;font-family:'Orbitron',sans-serif;font-size:0.55rem;letter-spacing:0.14em;padding:7px 15px;border-radius:20px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;}
-.edit-btn:hover{background:rgba(10,40,28,0.95);}
-
-/* ── EDITOR PANEL ── */
-.panel{position:fixed;top:0;right:0;width:285px;height:100vh;background:#030c14;border-left:1.5px solid rgba(0,220,160,0.18);z-index:399;overflow-y:auto;transform:translateX(100%);transition:transform 0.3s ease;padding:18px 14px 60px;}
-.panel.open{transform:translateX(0);}
-.panel h2{font-family:'Orbitron',sans-serif;font-size:0.85rem;color:#2fe8a8;margin-bottom:1.1rem;padding-bottom:8px;border-bottom:1px solid rgba(0,220,160,0.12);}
-.psec{margin-bottom:1.3rem;}
-.psec h3{font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(0,220,160,0.4);margin-bottom:8px;font-family:'Orbitron',sans-serif;}
-.field{margin-bottom:8px;}
-.field label{display:block;font-size:0.56rem;letter-spacing:0.1em;color:rgba(180,220,200,0.4);margin-bottom:3px;text-transform:uppercase;font-family:'Rajdhani',sans-serif;}
-.field input[type=text],.field input[type=url]{width:100%;background:#071010;border:1px solid rgba(0,220,160,0.18);color:#d4f5e8;font-family:'Rajdhani',sans-serif;font-size:0.88rem;padding:6px 9px;border-radius:6px;outline:none;transition:border-color 0.2s;}
-.field input:focus{border-color:rgba(0,220,160,0.55);}
-.field input[type=color]{width:100%;height:30px;background:#071010;border:1px solid rgba(0,220,160,0.18);border-radius:6px;cursor:pointer;padding:2px;}
-.tog-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
-.tog-label{font-size:0.75rem;color:rgba(180,220,200,0.5);font-family:'Rajdhani',sans-serif;}
-.sw{position:relative;width:34px;height:19px;flex-shrink:0;}
-.sw input{opacity:0;width:0;height:0;}
-.sl{position:absolute;inset:0;background:#071010;border:1px solid rgba(0,220,160,0.28);border-radius:19px;cursor:pointer;transition:.2s;}
-.sl:before{content:'';position:absolute;width:13px;height:13px;left:2px;top:2px;background:rgba(0,220,160,0.38);border-radius:50%;transition:.2s;}
-.sw input:checked+.sl{border-color:#2fe8a8;}
-.sw input:checked+.sl:before{transform:translateX(15px);background:#2fe8a8;}
-.dl-btn{width:100%;padding:9px;background:rgba(0,220,160,0.08);border:1.5px solid rgba(0,220,160,0.32);color:#2fe8a8;font-family:'Orbitron',sans-serif;font-size:0.55rem;letter-spacing:0.1em;border-radius:8px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;margin-top:6px;}
-.dl-btn:hover{background:rgba(0,220,160,0.18);}
-.info-btn{width:100%;padding:9px;background:rgba(0,160,255,0.06);border:1.5px solid rgba(0,160,255,0.28);color:#7dd3f5;font-family:'Orbitron',sans-serif;font-size:0.55rem;letter-spacing:0.1em;border-radius:8px;cursor:pointer;text-transform:uppercase;margin-top:6px;transition:all 0.2s;}
-.info-btn:hover{background:rgba(0,160,255,0.14);}
-
 /* ── TANK — full-page underwater world ── */
 .tank{
   width:100%;min-height:100vh;
@@ -197,46 +169,6 @@ html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overf
 </head>
 <body>
 
-<button class="edit-btn" id="editBtn" onclick="togglePanel()">✏ Edit Page</button>
-
-<!-- ══ EDITOR PANEL ══ -->
-<div class="panel" id="panel">
-  <h2>✏ Page Editor</h2>
-  <div class="psec">
-    <h3>Header</h3>
-    <div class="field"><label>Name</label><input type="text" id="e-name" value="Benn" oninput="liveUpdate()"></div>
-    <div class="field"><label>Subtitle</label><input type="text" id="e-sub" value="a little something special · just for you" oninput="liveUpdate()"></div>
-    <div class="field"><label>Accent Color</label><input type="color" id="e-accent" value="#2fe8a8" oninput="liveUpdate()"></div>
-  </div>
-  <div class="psec">
-    <h3>Card 1 · Birthday Video</h3>
-    <div class="field"><label>Label</label><input type="text" id="c1l" value="Birthday Video" oninput="liveUpdate()"></div>
-    <div class="field"><label>URL</label><input type="url" id="c1u" placeholder="https://..."></div>
-    <div class="field"><label>Icon</label><input type="text" id="c1i" value="🎬" oninput="liveUpdate()"></div>
-  </div>
-  <div class="psec">
-    <h3>Card 2 · Photo Album</h3>
-    <div class="field"><label>Label</label><input type="text" id="c2l" value="Benn's Photo Album" oninput="liveUpdate()"></div>
-    <div class="field"><label>URL</label><input type="url" id="c2u" placeholder="https://..."></div>
-    <div class="field"><label>Icon</label><input type="text" id="c2i" value="📸" oninput="liveUpdate()"></div>
-  </div>
-  <div class="psec">
-    <h3>Card 3 · Itinerary</h3>
-    <div class="field"><label>Label</label><input type="text" id="c3l" value="Birthday Date Itinerary" oninput="liveUpdate()"></div>
-    <div class="field"><label>URL</label><input type="url" id="c3u" placeholder="https://..."></div>
-    <div class="field"><label>Icon</label><input type="text" id="c3i" value="🗓️" oninput="liveUpdate()"></div>
-  </div>
-  <div class="psec">
-    <h3>Show / Hide</h3>
-    <div class="tog-row"><span class="tog-label">Header</span><label class="sw"><input type="checkbox" checked onchange="tog('hdr-block',this)"><span class="sl"></span></label></div>
-    <div class="tog-row"><span class="tog-label">Card 1 — Video</span><label class="sw"><input type="checkbox" checked onchange="togCard(1,this)"><span class="sl"></span></label></div>
-    <div class="tog-row"><span class="tog-label">Card 2 — Album</span><label class="sw"><input type="checkbox" checked onchange="togCard(2,this)"><span class="sl"></span></label></div>
-    <div class="tog-row"><span class="tog-label">Card 3 — Itinerary</span><label class="sw"><input type="checkbox" checked onchange="togCard(3,this)"><span class="sl"></span></label></div>
-    <div class="tog-row"><span class="tog-label">Footer text</span><label class="sw"><input type="checkbox" checked onchange="tog('ftr-el',this)"><span class="sl"></span></label></div>
-  </div>
-  <button class="dl-btn" onclick="downloadHTML()">⬇ Download Updated HTML</button>
-  <button class="info-btn" onclick="showSteps()">🌐 How to get a live link</button>
-</div>
 
 <!-- ══ TANK: the whole page is underwater ══ -->
 <div class="tank" id="tank">
@@ -271,7 +203,7 @@ html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overf
 
   <!-- ── LINK CARDS (submerged) ── -->
   <div class="links" id="linksWrap">
-    <a class="lcard" id="card-1" href="#" style="background:rgba(0,20,42,0.65);border-color:rgba(80,160,220,0.35);">
+    <a class="lcard" id="card-1" href="https://youtu.be/AROpC3fZi6Y" style="background:rgba(0,20,42,0.65);border-color:rgba(80,160,220,0.35);">
       <div class="lcard-icon" style="background:rgba(80,160,220,0.1);" id="i1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#7ab8e0" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="#7ab8e0"/></svg></div>
       <div class="lcard-text">
         <div class="lcard-title" id="l1" style="color:#8ec8f0;">Birthday Video</div>
@@ -614,7 +546,6 @@ html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overf
 // ══ AUDIO PLAY / PAUSE — native HTML5 ══
 (function(){
   const audio = document.getElementById('sc-player');
-  let triggered = false;
 
   function setPlaying(state){
     const btn       = document.getElementById('play-btn');
@@ -632,26 +563,14 @@ html,body{height:100%;background:#032840;font-family:'Rajdhani',sans-serif;overf
     }
   }
 
-  function startAudio(){
-    if(triggered) return;
-    triggered = true;
-    audio.play().then(()=>{ setPlaying(true); }).catch(()=>{});
-  }
-
-  // Auto-play on very first interaction anywhere on the page
-  document.addEventListener('click',      startAudio, {once:true});
-  document.addEventListener('touchstart', startAudio, {once:true, passive:true});
-  document.addEventListener('keydown',    startAudio, {once:true});
-
   // Sync icon with audio state
   audio.addEventListener('play',  ()=> setPlaying(true));
   audio.addEventListener('pause', ()=> setPlaying(false));
 
-  // Manual toggle — stopPropagation so it doesn't also fire startAudio
+  // Only the button controls playback
   window.togglePlay = function(e){
     if(e) e.stopPropagation();
     if(audio.paused){
-      triggered = true;
       audio.play().then(()=>{ setPlaying(true); }).catch(()=>{});
     } else {
       audio.pause();
@@ -1052,65 +971,6 @@ mkFish(`<svg width="52" height="34" viewBox="0 0 52 34" fill="none">
   </g>
 </svg>`, '44%', 16, 8, -1);
 
-
-// ── EDITOR ──
-let panelOpen = false;
-function togglePanel(){
-  panelOpen=!panelOpen;
-  document.getElementById('panel').classList.toggle('open',panelOpen);
-  document.getElementById('editBtn').textContent=panelOpen?'✕ Close':'✏ Edit Page';
-}
-function liveUpdate(){
-  const name=document.getElementById('e-name').value||'Benn';
-  const accent=document.getElementById('e-accent').value;
-  document.getElementById('nameEl').textContent=name;
-  document.getElementById('nameEl').style.color=accent;
-  document.title='Happy Birthday '+name+'!';
-  [1,2,3].forEach(n=>{
-    document.getElementById('l'+n).textContent=document.getElementById('c'+n+'l').value;
-    document.getElementById('i'+n).innerHTML=document.getElementById('i'+n).innerHTML; // icons are SVG, labels only
-    const lel = document.getElementById('l'+n);
-    if(lel) lel.textContent=document.getElementById('c'+n+'l').value;
-  });
-}
-[1,2,3].forEach(n=>{
-  document.getElementById('c'+n+'u').addEventListener('input',function(){
-    const url=this.value.trim();
-    const card=document.getElementById('card-'+n);
-    const sub=document.getElementById('s'+n);
-    if(url){card.href=url;card.onclick=null;sub.textContent='tap to open';}
-    else{card.href='#';sub.textContent='url not set yet';}
-  });
-  document.getElementById('card-'+n).addEventListener('click',function(e){
-    if(this.getAttribute('href')==='#'){e.preventDefault();alert('Open ✏ Edit Page and paste the URL for card '+n+'!');}
-  });
-});
-function tog(id,cb){document.getElementById(id).classList.toggle('hidden',!cb.checked);}
-function togCard(n,cb){document.getElementById('card-'+n).classList.toggle('hidden',!cb.checked);}
-function downloadHTML(){
-  const name=document.getElementById('e-name').value||'Benn';
-  const sub=document.getElementById('e-sub').value;
-  const accent=document.getElementById('e-accent').value;
-  const cards=[1,2,3].map(n=>({l:document.getElementById('c'+n+'l').value,u:document.getElementById('c'+n+'u').value||'#',i:document.getElementById('c'+n+'i').value}));
-  const clone=document.documentElement.cloneNode(true);
-  clone.querySelector('#nameEl').textContent=name;
-  clone.querySelector('#nameEl').style.color=accent;
-  clone.querySelector('#subEl').textContent=sub;
-  clone.querySelector('title').textContent='Happy Birthday '+name+'!';
-  [1,2,3].forEach((n,idx)=>{
-    clone.querySelector('#l'+n).textContent=cards[idx].l;
-    clone.querySelector('#i'+n).textContent=cards[idx].i;
-    clone.querySelector('#card-'+n).href=cards[idx].u;
-    clone.querySelector('#s'+n).textContent=cards[idx].u==='#'?'url not set yet':'tap to open';
-  });
-  const p=clone.querySelector('#panel');if(p)p.remove();
-  const bt=clone.querySelector('.edit-btn');if(bt)bt.remove();
-  const blob=new Blob(['<!DOCTYPE html>\n'+clone.outerHTML],{type:'text/html'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='birthday-page.html';a.click();
-}
-function showSteps(){
-  alert('HOW TO GET A FREE LIVE LINK\n\nOPTION A — Netlify Drop (~2 min):\n1. Click "Download Updated HTML"\n2. Go to: app.netlify.com/drop\n3. Drag & drop the file\n4. Get a live URL instantly!\n\nOPTION B — GitHub Pages:\n1. Create account at github.com\n2. New repo → upload as index.html\n3. Settings → Pages → enable\n4. URL: username.github.io/repo-name\n\nThen come back for your QR code!');
-}
 </script>
 </body>
 </html>
